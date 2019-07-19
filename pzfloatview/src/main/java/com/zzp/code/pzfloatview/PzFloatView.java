@@ -110,7 +110,7 @@ public class PzFloatView extends FrameLayout {
      */
     public void show(){
         if (!isAttachedToWindow() || isShow){
-            Log.e(TAG,"XH Float View is not to attch to window!!!");
+            Log.e(TAG,"Float View is not to attch to window!!!");
             return;
         }
         isShow = true;
