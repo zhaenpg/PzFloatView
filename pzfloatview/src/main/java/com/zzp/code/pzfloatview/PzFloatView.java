@@ -141,27 +141,33 @@ public class PzFloatView extends FrameLayout {
             return true;
         }
 
-        init(mContext,childView,offsetX,offsetY);
-        isAddedToLayout = true;
-        if (wm != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                if (!isAttachedToWindow()) {
-                    wm.addView(this, wmParams);
-                    return true;
-                }
-            } else {
-                try {
-                    if (getParent() == null) {
-                        wm.addView(this, wmParams);
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                init(mContext,childView,offsetX,offsetY);
+
+                if (wm != null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        if (!isAttachedToWindow()) {
+                            wm.addView(PzFloatView.this, wmParams);
+                            isAddedToLayout = true;
+                        }
+                    } else {
+                        try {
+                            if (getParent() == null) {
+                                wm.addView(PzFloatView.this, wmParams);
+                            }
+                            isAddedToLayout = true;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                    return true;
-                } catch (Exception e) {
-                    e.printStackTrace();
+
                 }
             }
+        },0L);
 
-        }
-        return false;
+        return isAddedToLayout;
     }
 
     /**
