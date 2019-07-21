@@ -7,7 +7,7 @@ import android.view.View;
 
 /*
 * Author : Zhangzhenpeng
-* Description : CoordinateHelper is Helper PzFloatView to get the coordinate it need to scroll
+* Description : CoordinateHelper is Help PzFloatView to get the coordinate it need to scroll
 * Create When 2019/7/19 15:39
 * TODO:None
 * Last update by
@@ -73,6 +73,7 @@ public class CoordinateHelper {
         TOP,
         RIGHT,
         BOTTOM,
+        DONT_SCROLL
     }
 
     /**
@@ -101,6 +102,9 @@ public class CoordinateHelper {
                 point = new Point(x,getNeededHeight(activity) - targetView.getWidth(),x,
                         getNeededHeight(activity) - targetView.getWidth() / 2 ,true);
                 break;
+            case DONT_SCROLL:
+                point = null;
+                break;
             default:
                 point = new Point(0,y,0 - targetView.getWidth() / 2,y ,false);
                 break;
@@ -113,10 +117,16 @@ public class CoordinateHelper {
      * @param currentX
      * @param currentY
      * @return
-     * todo:判断可移动至那个方向
      */
     private Direction getNeedToScrollPosition(Activity activity,PzFloatView floatView,int currentX,int currentY){
-
+        //not set the direction can scroll
+        //so set don't scroll
+        if (!floatView.isCanScrollToTop()
+                && !floatView.isCanScrollToLeft()
+                && !floatView.isCanScrollToRight()
+                && !floatView.isCanScrollToBottom()){
+            return Direction.DONT_SCROLL;
+        }
         if (isNearLeftArea(activity,currentX)){
             return toJudgeWhereToScrollInLeft(activity,floatView,currentX,currentY);
         }else {

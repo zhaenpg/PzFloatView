@@ -84,9 +84,6 @@ public class PzFloatView extends FrameLayout {
         this.offsetY = y;
     }
 
-
-
-
     /**
      * @param context
      * @param x horizontal offset
@@ -416,6 +413,9 @@ public class PzFloatView extends FrameLayout {
     private void moveToEdge(){
         isHiededInEdeg = false;
         mCurrentPoint = CoordinateHelper.get().getTargetPosition(getActivity(),this,wmParams.x,wmParams.y);
+        if (mCurrentPoint == null){
+            return;
+        }
         if (mCurrentPoint.isStartVerticalAnim){
             startMoveAnim(wmParams.y,mCurrentPoint.getY(),0);
         }else {
